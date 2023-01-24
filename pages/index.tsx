@@ -1,5 +1,5 @@
 import Head from 'next/head'
-export default function Home() {
+export default function Home({ data }: any) {
   return (
     <>
       <Head>
@@ -9,13 +9,17 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <div>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia,
-          quia totam! Deserunt exercitationem laudantium, iusto accusantium
-          architecto velit corporis quibusdam ex incidunt et atque voluptatum
-          qui natus fugit quos dolores!
-        </p>
+        <pre>{JSON.stringify(data, null, 4)}</pre>
       </div>
     </>
   )
+}
+export const getServerSideProps = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const data = await res.json()
+  return {
+    props: {
+      data,
+    },
+  }
 }
